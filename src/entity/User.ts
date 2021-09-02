@@ -1,4 +1,4 @@
-import {BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany} from "typeorm";
+import {BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany, BeforeInsert} from "typeorm";
 import { Post } from "./Post";
 
 @Entity()
@@ -8,10 +8,15 @@ export class User extends BaseEntity {
     id: number;
 
     @Column()
+    password: string;
+
+    @Column({
+        unique: true
+    })
     userName: string;
 
-    @Column()
-    isActive: boolean;
+    @Column('boolean', {default: true})
+    isActive: boolean = true;
 
     @OneToMany(() => Post, post => post.user)
     posts: Post[];

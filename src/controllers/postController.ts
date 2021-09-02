@@ -1,5 +1,5 @@
 import { TYPES } from "../types"
-import { IPostInterface } from "../repositories/interfaces/postInterface"
+import IPostRepositoryInterface from "../repositories/interfaces/postInterface"
 import { inject, injectable } from "inversify"
 import { Request, Response, NextFunction } from "express"
 import { IPostInputDTO } from "../dtos/postDTO"
@@ -7,9 +7,9 @@ import { IPostInputDTO } from "../dtos/postDTO"
 
 @injectable()
 export default class PostController {
-    public postRepo: IPostInterface
+    public postRepo: IPostRepositoryInterface
 
-    constructor(@inject(TYPES.IPostInterface) postRepo: IPostInterface) {
+    constructor(@inject(TYPES.IPostRepositoryInterface) postRepo: IPostRepositoryInterface) {
         this.postRepo = postRepo;
     }
 

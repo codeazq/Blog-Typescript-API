@@ -1,5 +1,8 @@
 const TYPES = {
-    IPostInterface: Symbol.for("IPostInterface"),
-    PostController: Symbol.for("PostController")
+    IPostRepositoryInterface: Symbol.for("IPostRepositoryInterface"),
+    PostController: Symbol.for("PostController"),
+    IUserRepositoryInterface: Symbol.for("IUserRepositoryInterface"),
+    UserController: Symbol.for("UserController"),
+    AuthService: Symbol.for("AuthService")
 };
 export { TYPES };

@@ -1,6 +1,6 @@
 import { IPostDTO, IPostInputDTO } from "../../dtos/postDTO"
 
-export interface IPostInterface {
+export default interface IPostRepositoryInterface {
     all(): Promise<IPostDTO[]>
     find(id: number): Promise<IPostDTO>
     create(data: IPostInputDTO): Promise<IPostDTO>
