@@ -1,17 +1,17 @@
 import {Router, Request, Response, NextFunction} from 'express'
 import PostController from '../controllers/postController';
 import { myContainer } from "../inversify.config";
-import passport from "passport";
-import * as passportConfig from "../config/passport";
-
 const router = Router();
+import * as passport from "passport";
+import "../config/passport";
+
 const postController: PostController = myContainer.resolve<PostController>(PostController);
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
     await postController.index(req, res, next)
 })
 
-router.post('/', passport.authenticate('jwt',{session: false}),  async (req: Request, res: Response, next: NextFunction) => {
+router.post('/', passport.authenticate('jwt',{session: false}), async (req: Request, res: Response, next: NextFunction) => {
     await postController.store(req, res, next)
 })
 

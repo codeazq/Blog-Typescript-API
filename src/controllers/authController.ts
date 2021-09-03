@@ -3,14 +3,15 @@ import { inject, injectable } from "inversify"
 import { Request, Response, NextFunction } from "express"
 import { IUserInputDTO, IAuthUserInputDTO } from "../dtos/userDTO"
 import AuthService from "../services/auth"
+import { myContainer } from "../inversify.config";
 
 
 @injectable()
 export default class AuthController {
     public authService: AuthService
 
-    constructor(@inject(TYPES.AuthService) authService: AuthService) {
-        this.authService = authService
+    constructor() {
+        this.authService = myContainer.resolve<AuthService>(AuthService);
     }
 
     public async register(req: Request, res: Response, next: NextFunction) {

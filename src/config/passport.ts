@@ -1,5 +1,5 @@
-import passport from "passport";
-import passportJWT from "passport-jwt";
+import * as passport from "passport";
+import * as passportJWT from "passport-jwt";
 import { myContainer } from "../inversify.config";
 import { TYPES } from "../types";
 import IUserRepositoryInterface from "../repositories/interfaces/userInterface";
