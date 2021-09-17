@@ -7,8 +7,13 @@ export interface IPostDTO {
   updated_at?: string,
 }
 
-export interface IPostInputDTO {
+export interface ICreatePostDTO {
   title: string,
   body: string,
   user_id: number,
+}
+
+export interface IUpdatePostDTO {
+  title: string,
+  body: string,
 }

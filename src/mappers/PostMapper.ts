@@ -1,4 +1,4 @@
-import { IPostInputDTO, IPostDTO } from "../dtos/postDTO"
+import { ICreatePostDTO, IPostDTO } from "../dtos/postDTO"
 
 export default class PostMapper{
     public static toDTO(data: any): IPostDTO
@@ -13,7 +13,7 @@ export default class PostMapper{
         }
     }
 
-    public static toInputDTO(data: any): IPostInputDTO
+    public static toInputDTO(data: any): ICreatePostDTO
     {
         return {
             title: data.title,

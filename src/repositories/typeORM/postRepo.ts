@@ -1,7 +1,7 @@
 import IPostRepositoryInterface from '../interfaces/postInterface'
 import { injectable } from "inversify"
 import { Post } from "../../entity/Post"
-import { IPostDTO, IPostInputDTO } from "../../dtos/postDTO"
+import { IPostDTO, ICreatePostDTO, IUpdatePostDTO } from "../../dtos/postDTO"
 import PostMapper from "../../mappers/PostMapper"
  
 
@@ -20,7 +20,7 @@ export default class PostRepository implements IPostRepositoryInterface {
 		return PostMapper.toDTO(post);
 	}
 
-	public async create(data: IPostInputDTO): Promise<IPostDTO> {
+	public async create(data: ICreatePostDTO): Promise<IPostDTO> {
 		const post = new Post();
 		post.title = data.title;
 		post.body = data.body;
@@ -29,7 +29,7 @@ export default class PostRepository implements IPostRepositoryInterface {
 		return PostMapper.toDTO(post);
 	}
 
-	public async update(id:number, data: IPostInputDTO): Promise<IPostDTO> {
+	public async update(id:number, data: IUpdatePostDTO): Promise<IPostDTO> {
 		const post = await Post.findOne(id);
 		if (typeof data.title !== 'undefined' || data.title !== null) { post.title = data.title }
 		if (typeof data.body !== 'undefined' || data.body !== null) { post.body = data.body }
