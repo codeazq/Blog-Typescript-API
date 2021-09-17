@@ -15,7 +15,7 @@ export default class AuthController {
     }
 
     public async register(req: Request, res: Response, next: NextFunction) {
-        // check if userName is already registered
+        // check if name is already registered
         const token = await this.authService.register(req.body as IAuthUserInputDTO)
         res.status(200).send(token);
     }
