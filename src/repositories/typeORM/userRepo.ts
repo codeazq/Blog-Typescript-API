@@ -21,18 +21,18 @@ export default class UserRepository implements IUserRepositoryInterface {
     }
 
     public async findByName(name: string): Promise<IUserDTO> {
-        const user = await User.findOne(name, { where: { userName: 1}});
+        const user = await User.findOne(name, { where: { name: 1}});
         return UserMapper.toDTO(user);
     }
 
     public async findByNameWithPassword(name: string): Promise<IAuthUserDTO> {
-        const user = await User.findOne(name, { where: { userName: 1}});
+        const user = await User.findOne(name, { where: { name: 1}});
         return UserMapper.toAuthDTO(user);
     }
 
     public async create(data: IUserInputDTO): Promise<IUserDTO> {
         const user = new User();
-        if (data.userName) {user.userName = data.userName}
+        if (data.name) {user.name = data.name}
         if (data.password) {user.password = data.password}
         if (data.isActive) {user.isActive = data.isActive}
         await user.save();
@@ -41,7 +41,7 @@ export default class UserRepository implements IUserRepositoryInterface {
 
     public async update(id:number, data: IUserInputDTO): Promise<IUserDTO> {
         const user = await User.findOne(id);
-        if (data.userName) {user.userName = data.userName}
+        if (data.name) {user.name = data.name}
         if (data.password) {user.password = data.password}
         if (data.isActive) {user.isActive = data.isActive}
         await user.save();

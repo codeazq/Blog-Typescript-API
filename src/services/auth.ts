@@ -22,7 +22,7 @@ export default class AuthService{
     }
 
     public async signIn(inputData: IAuthUserInputDTO) {
-        const user = await this.userRepo.findByNameWithPassword(inputData.userName)
+        const user = await this.userRepo.findByNameWithPassword(inputData.name)
         try {
             if(await bcrypt.compare(inputData.password, user.password)) {
                 return this.generateToken(user.id)
