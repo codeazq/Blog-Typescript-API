@@ -5,7 +5,7 @@ export default class UserMapper {
     {
         return {
             id: data.id,
-            userName: data.userName,
+            name: data.name,
             isActive: data.isActive,
             created_at: data.created_at,
             updated_at: data.updated_at
@@ -15,7 +15,7 @@ export default class UserMapper {
     public static toInputDTO(data: any): IUserInputDTO
     {
         return {
-            userName: data.userName,
+            name: data.name,
             password: data.password || null,
         }
     }
@@ -24,7 +24,7 @@ export default class UserMapper {
     {
         return {
             id: data.id,
-            userName: data.userName,
+            name: data.name,
             password: data.password,
         }
     }
