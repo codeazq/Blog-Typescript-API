@@ -1,40 +1,57 @@
-import { TYPES } from "../types"
-import IPostRepositoryInterface from "../repositories/interfaces/postInterface"
-import { inject, injectable } from "inversify"
+import PostService from "../services/post"
+import PostPolicy from "../policies/Post"
+import { myContainer } from "../inversify.config"
+import { injectable } from "inversify"
 import { Request, Response, NextFunction } from "express"
-import { IPostInputDTO } from "../dtos/postDTO"
+import { ICreatePostDTO, IUpdatePostDTO } from "../dtos/postDTO"
 
 
 @injectable()
 export default class PostController {
-    public postRepo: IPostRepositoryInterface
+    public postService: PostService
 
-    constructor(@inject(TYPES.IPostRepositoryInterface) postRepo: IPostRepositoryInterface) {
-        this.postRepo = postRepo;
+    public postPolicy: PostPolicy
+
+    constructor() {
+        this.postService = myContainer.resolve<PostService>(PostService);
+        this.postPolicy = myContainer.resolve<PostPolicy>(PostPolicy);
     }
 
     public async index(req: Request, res: Response, next: NextFunction) {
-        const posts = await this.postRepo.all();
+        const posts = await this.postService.getAll();
         res.status(200).send(posts);
     }
 
     public async show(req: Request, res: Response, next: NextFunction) {
-        const post = await this.postRepo.find(+req.params.id);
+        const post = await this.postService.find(+req.params.id);
         res.status(200).send(post);
     }
 
-    public async store(req: Request, res: Response, next: NextFunction) {
-        const post = await this.postRepo.create(req.body as IPostInputDTO)
+    public async store(req, res: Response, next: NextFunction) {
+        let createPostInputData = req.body;
+        createPostInputData.user_id = req.user.id
+        const post = await this.postService.create(createPostInputData as ICreatePostDTO);
         res.status(200).send(post);
     }
 
-    public async update(req: Request, res: Response, next: NextFunction) {
-        const post = await this.postRepo.update(+req.params.id, req.body as IPostInputDTO)
-        res.status(200).send(post);
+    public async update(req, res: Response, next: NextFunction) {
+        try {
+            await this.postPolicy.update(+req.user.id, +req.params.id)
+            const post = await this.postService.update(+req.params.id, req.body as IUpdatePostDTO)
+            res.status(200).send(post);
+        } catch (error) {
+            console.log(`error: ${error}`)
+            res.status(401).send(error);
+        }
     }
 
-    public async delete(req: Request, res: Response, next: NextFunction) {
-        await this.postRepo.delete(+req.params.id);
-        res.status(200).send();
+    public async delete(req, res: Response, next: NextFunction) {
+        try {
+            await this.postPolicy.delete(+req.user.id, +req.params.id)
+            await this.postService.delete(+req.params.id);
+            res.status(200).send();
+        } catch (error) {
+            res.status(401).send(error);
+        }
     }
 }
